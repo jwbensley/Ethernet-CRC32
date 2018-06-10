@@ -9,16 +9,15 @@
 #include <stdio.h>     // EOF, FILE, fclose(), fprintf(), fscanf(), perror(), printf(), stderr, stdin
 #include <stdlib.h>    // calloc(), exit()
 #include <inttypes.h>  // intN_t, PRIxN, SCNxN, uintN_t
-//#include <string.h>   // memset()
+#include <string.h>   // memset()
 
 #include "crc32.h"
 
-int main(int argc, char *argv[]) {
+int32_t main(uint16_t argc, char *argv[]) {
 
-  int c, i, n; 
-  FILE *fp, *fopen();
   cm_t cm;
   p_cm_t p_cm = &cm;
+  memset(p_cm, 0, sizeof(cm));
 
   p_cm->cm_width  = 32;
   p_cm->cm_poly   = 0x04C11DB7;
@@ -27,26 +26,26 @@ int main(int argc, char *argv[]) {
   p_cm->cm_refot  = 1;
   p_cm->cm_xorot  = 0xFFFFFFFF;
 
-  i = 1;
-  fp = stdin;
+  FILE *fp = NULL;
+
+  static uint16_t idx = 1;
 
   do {
 
-    if (argc > 1 && (fp=fopen(argv[i], "r")) == NULL) {
-       fprintf(stderr, "%s: can't open %s\n", argv[0], argv[i]);
+    if (argc > 1 && (fp=fopen(argv[idx], "r")) == NULL) {
+       fprintf(stderr, "%s: can't open %s\n", argv[0], argv[idx]);
        continue;
     }
     
     cm_ini(p_cm);
    
-    printf("%s: ", argv[i]);
+    printf("%s: ", argv[idx]);
 
-    uint32_t file_ret = 0;
-    uint16_t frame_sz = 0;
+    static uint32_t file_ret   = 0;
+    static uint16_t frame_sz   = 0;
+    static uint8_t *crc_buffer = NULL;
 
-    #define MAX_FRAME_SIZE 10000
-
-    uint8_t *crc_buffer = (uint8_t*)calloc(MAX_FRAME_SIZE,1);
+    crc_buffer = (uint8_t*)calloc(MAX_FRAME_SIZE, 1);
 
     if (crc_buffer == NULL) {
       printf("Failed to calloc() CRC buffer!\n");
@@ -84,7 +83,7 @@ int main(int argc, char *argv[]) {
 
     uint8_t j;
     for (j = 0; j < max; j += 1) {
-       cm_nxt(p_cm, crc_buffer[j]);
+      cm_nxt(p_cm, crc_buffer[j]);
     }
 
     uint32_t crc = cm_crc(p_cm) & 0xffffffff;
@@ -100,16 +99,10 @@ int main(int argc, char *argv[]) {
       printf("Calculated CRC: 0x%x\n", crc);
     }
 
-  } while (++i < argc);
+  } while (++idx < argc);
 
   exit(0);
 }
-
-
-
-
-
-
 
 
 static uint32_t reflect(uint32_t v, uint32_t b) {
