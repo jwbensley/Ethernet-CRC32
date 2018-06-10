@@ -31,8 +31,8 @@
 #define _CRC32_H_
 
 
+#define MAX_FRAME_SIZE 10000
 #define BITMASK(X) (1L << (X))
-#define MASK32 0xFFFFFFFFL
 
 
 /* CRC Model Abstract Type */
