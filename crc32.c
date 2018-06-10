@@ -1,15 +1,15 @@
 
 /* 
  * Based upon the work of Grant P. Maizels and Ross Williams.
- * Their original licensce details are in the header file.
- * This amalgamation is the work of James Bensley.
+ * Their original licence details are in the header file.
+ * This amalgamation is the work of James Bensley Copyright (c) 2018.
  */ 
 
 
 #include <stdio.h>     // EOF, FILE, fclose(), fprintf(), fscanf(), perror(), printf(), stderr, stdin
 #include <stdlib.h>    // calloc(), exit()
 #include <inttypes.h>  // intN_t, PRIxN, SCNxN, uintN_t
-#include <string.h>   // memset()
+#include <string.h>    // memset()
 
 #include "crc32.h"
 

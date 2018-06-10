@@ -23,5 +23,5 @@ Calculated CRC: 0x86b44ce6, Frame FCS: 0x86b44ce6
 Matched!
 ```
 To capture frames with the FCS (this is usually removed by the NIC) rx-fcs  
-must be enabled (not all NICs support this):
+must be enabled (not all NICs support this):  
 `sudo ethtool -K enp0s25 rx-fcs on`  
