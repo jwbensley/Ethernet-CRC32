@@ -25,3 +25,7 @@ Matched!
 To capture frames with the FCS (this is usually removed by the NIC) rx-fcs  
 must be enabled (not all NICs support this):  
 `sudo ethtool -K enp0s25 rx-fcs on`  
+
+
+#### Further Info
+Further info on the EthernetCRC can be found here: https://null.53bits.co.uk/index.php?page=crc-and-checksum-error-detection
